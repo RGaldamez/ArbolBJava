@@ -9,13 +9,20 @@ package arbolbjava;
  *
  * @author RickAg
  */
-public class ArbolBJava {
+public class Tree {
+    private TreeNode root;
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+    public Tree(TreeNode root) {
+        this.root = root;
     }
+
+    public TreeNode getRoot() {
+        return root;
+    }
+
+    public void setRoot(TreeNode root) {
+        this.root = root;
+    }
+    
     
 }
