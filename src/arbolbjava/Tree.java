@@ -24,5 +24,17 @@ public class Tree {
         this.root = root;
     }
     
+    private void insert(int key, TreeNode Node){
+        if (Node.isLeaf() && !Node.isFull()){
+            if(Node.leftEmpty()){
+                Node.setLeftKey(key);
+            }else if(!Node.leftEmpty() && Node.rightEmpty()){
+                Node.setRightKey(key);
+            }
+        }else{
+            
+        }
+    }
+    
     
 }

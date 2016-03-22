@@ -76,9 +76,26 @@ public class TreeNode {
         return false;
     }
     
+    boolean isFull(){
+        if (leftKey != -1 && rightKey !=-1){
+            return true;
+        }
+        return false;
+    }
     
+    boolean leftEmpty(){
+        if (leftKey !=-1){
+            return false;
+        }
+        return true;
+    }
     
-    
-    
+    boolean rightEmpty(){
+        if (rightKey !=-1){
+            return false;
+        }
+        return true;
+    }
+   
     
 }
