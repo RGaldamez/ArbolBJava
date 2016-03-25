@@ -70,6 +70,28 @@ public class Tree {
                 }
                
             }
+        }else if (Node.getFather() == null && !Node.isLeaf()){
+            int leftKey = Node.getLeftKey();
+            int rightKey = Node.getRightKey();
+            
+            if(key < leftKey){
+                insert(key,Node.getLeftBranch());
+                
+            }else if (key > leftKey && key< rightKey){
+                insert(key,Node.getMiddleBranch());
+                
+            }else if (key  > rightKey && Node.getRightBranch() != null){
+                insert(key,Node.getRightBranch());
+                                                
+            }else if (key > rightKey && Node.getRightBranch() == null){
+                insert(key,Node.getMiddleBranch());
+            }
+            
+            
+        }else{
+            if (Node.isLeaf()){
+                
+            }
         }
         
     }
