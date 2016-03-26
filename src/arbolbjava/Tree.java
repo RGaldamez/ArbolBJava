@@ -89,7 +89,29 @@ public class Tree {
             
             
         }else{
-            if (Node.isLeaf()){
+            if (Node.isLeaf() && !Node.isFull()){
+                Node.setRightKey(key);
+                order(Node);
+            }else if(!Node.isLeaf()){
+                if (Node.rightEmpty()){
+                    if (key < Node.getLeftKey()){
+                        insert(key, Node.getLeftBranch());
+                    }else{
+                        insert(key, Node.getMiddleBranch());
+                    }
+                }else{
+                    if (key < Node.getLeftKey()){
+                        insert(key, Node.getLeftBranch());
+                    }else if (Node.getLeftKey() < key && key > Node.getRightKey()){
+                        insert(key , Node.getMiddleBranch());
+                    }else{
+                        insert (key, Node.getRightBranch());
+                    }
+                }
+            }else if (Node.isLeaf() && Node.isFull()){
+                //split promote
+                setRelations(null,root);
+                
                 
             }
         }
@@ -104,5 +126,90 @@ public class Tree {
             node.setRightKey(left);
         }
     }
+    
+    public void setRelations(TreeNode father, TreeNode child){
+        if (father == null){
+            if (father.getLeftBranch() != null){
+                setRelations(child,child.getLeftBranch());
+            }
+            if (father.getMiddleBranch() != null){
+                setRelations(child,child.getMiddleBranch());
+            }
+            if (father.getRightBranch() != null){
+                setRelations(child,child.getRightBranch());
+            }
+            
+        }else if (father != null && !father.isLeaf()){
+            if (father.getLeftBranch() != null){
+                setRelations(child,child.getLeftBranch());
+            }
+            if (father.getMiddleBranch() != null){
+                setRelations(child,child.getMiddleBranch());
+            }
+            if (father.getRightBranch() != null){
+                setRelations(child,child.getRightBranch());
+            }
+        }else{
+            child.setFather(father);
+        }
+    }
+    
+    public void promote (TreeNode node, int key3){
+        int key1 = node.getLeftKey();
+        int key2 = node.getRightKey();
+        int toRise;
+        TreeNode leftNode = new TreeNode();
+        TreeNode rightNode = new TreeNode();
+        
+        if (key3 < key1){
+            //key3 menor
+            leftNode = new TreeNode(key3);
+            rightNode = new TreeNode(key2);
+            toRise = key1;
+            
+        }else if (key1 < key3 && key3 < key2){
+            //key3 en medio
+            leftNode = new TreeNode(key1);
+            rightNode = new TreeNode(key2);
+            toRise = key3;
+            
+        }else if (key2 < key3){
+            //key3 mayor
+            leftNode = new TreeNode(key1);
+            rightNode = new TreeNode(key3);
+            toRise = key2;  
+        }
+        
+        if (node.getFather() == null){
+            //uy papa
+        }else{
+            if (node.getFather().rightEmpty()){
+                if (node.getFather().getMiddleBranch().rightEmpty()){
+                    node.getFather().getMiddleBranch().setRightKey(leftNode.getLeftKey());
+                    order(node.getFather().getMiddleBranch());
+                }else{
+                    int newkey1;
+                    int newkey2;
+                    int newkey3;
+                }
+                if (node.getFather().getRightBranch() == null){
+                    node.getFather().setRightBranch(new TreeNode(rightNode.getLeftKey(), node.getFather()));
+                    
+                }else if (node.getFather().getRightBranch() != null && node.getFather().getRightBranch().rightEmpty()){
+                    node.getFather().getRightBranch().setRightKey(rightNode.getLeftKey());
+                    order(node.getFather().getRightBranch());
+                    
+                }else{
+                    
+                    int newkey1;
+                    int newkey2;
+                    int newkey3;
+                }
+            }else{
+                
+            }
+        }
  
+    }
 }
+
