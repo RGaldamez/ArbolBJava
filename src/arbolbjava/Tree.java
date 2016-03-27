@@ -108,9 +108,22 @@ public class Tree {
                         insert(key, Node.getRightBranch());
                     }
                 }
-            } else if (Node.isLeaf() && Node.isFull()) {
-                //split promote
+            } else if (Node.isLeaf() && Node.isFull() && !Node.getFather().isFull()) {
                 setRelations(null, root);
+                if (Node ==  Node.getFather().getLeftBranch()){
+                    promote(Node, key,true,false);
+                }else if (Node == Node.getFather().getMiddleBranch()){
+                    promote(Node, key,false,true);
+                }
+                
+            }else if (Node.isLeaf() && Node.isFull() && Node.getFather().isFull()){
+                if (Node ==  Node.getFather().getLeftBranch()){
+                    
+                }else if (Node == Node.getFather().getMiddleBranch()){
+                    
+                }else if (Node == Node.getFather().getRightBranch()){
+                    
+                }
             }
         }
 
@@ -147,14 +160,15 @@ public class Tree {
             if (father.getRightBranch() != null) {
                 setRelations(child, child.getRightBranch());
             }
-        } else {
-            child.setFather(father);
         }
+        child.setFather(father);
     }
 
-    public void promote(TreeNode node, int key3) {
+    public void promote(TreeNode node, int key3, boolean first, boolean second) {
         int key1 = node.getLeftKey();
         int key2 = node.getRightKey();
+        int keyToLeft= -1;
+        int keyToRight = -1;
         int toRise = -1;
         TreeNode leftNode = new TreeNode();
         TreeNode rightNode = new TreeNode();
@@ -164,63 +178,41 @@ public class Tree {
             leftNode = new TreeNode(key3);
             rightNode = new TreeNode(key2);
             toRise = key1;
+            keyToLeft = key3;
+            keyToRight = key2;
+            
 
-        } else if (key1 < key3 && key3 < key2) {
+        } else if ( key1 < key3 && key3 < key2 ) {
             //key3 en medio
             leftNode = new TreeNode(key1);
             rightNode = new TreeNode(key2);
             toRise = key3;
+            keyToLeft = key1;
+            keyToRight = key2;
+            int fatherLeft;
 
-        } else if (key2 < key3) {
+        } else if (key2 < key3 ) {
             //key3 mayor
             leftNode = new TreeNode(key1);
             rightNode = new TreeNode(key3);
             toRise = key2;
+            keyToLeft = key1;
+            keyToRight = key3;
         }
-
-        if (node.getFather() == null) {
-            //uy papa
-        } else {
-            if (node.getFather().rightEmpty()) {
-                if (node.getFather().getMiddleBranch().rightEmpty()) {
-                    node.getFather().getMiddleBranch().setRightKey(leftNode.getLeftKey());
-                    order(node.getFather().getMiddleBranch());
-                } else {
-                    /*int newkey1 = node.getFather().getLeftKey();
-                    int newkey2 = node.getFather().getRightKey();
-                    int toRiseAgain;
-
-                    if (toRise < newkey1) {
-
-                    } else if (toRise > newkey1 && toRise < newkey2) {
-
-                    } else if (toRise > newkey2) {
-
-                    }*/
-
-                }
-                if (node.getFather().getRightBranch() != null && node.getFather().getRightBranch().rightEmpty()) {
-                    node.getFather().getRightBranch().setRightKey(rightNode.getLeftKey());
-                    order(node.getFather().getRightBranch());
-                } else {
-
-                    /*int newkey1 = node.getFather().getLeftKey();
-                    int newkey2 = node.getFather().getRightKey();
-                    int toRiseAgain;
-
-                    if (toRise < newkey1) {
-
-                    } else if (toRise > newkey1 && toRise < newkey2) {
-
-                    } else if (toRise > newkey2) {
-
-                    }*/
-                }
-            } else {
-
-            }
+        
+        if (first){
+              node.getFather().setRightKey(node.getFather().getLeftKey());
+              node.getFather().setLeftKey(toRise);
+              node.getFather().setLeftBranch(new TreeNode(keyToLeft));
+              node.getFather().setRightBranch(node.getFather().getMiddleBranch());
+              node.getFather().setMiddleBranch(new TreeNode(keyToRight));
         }
-
+        if (second){
+            node.getFather().setRightKey(toRise);
+            node.getFather().setMiddleBranch(new TreeNode(keyToLeft));
+            node.getFather().setRightBranch(new TreeNode(keyToRight));
+        }
+        setRelations(null,root);
     }
 
     public void promoteRR(TreeNode father, int key, boolean first, boolean second, boolean third) {
@@ -268,6 +260,8 @@ public class Tree {
         int sonRight = father.getRightKey();
         int grandSonLeft;
         int grandSonRight;
+        int bottomLeft;
+        int bottomRight;
         int toRise;
         int toRiseAgain;
         TreeNode tempFather;
@@ -283,10 +277,19 @@ public class Tree {
             
             if (key < grandSonLeft){
                 toRise = grandSonLeft;
+                bottomLeft = key;
+                bottomRight = grandSonRight;
+                
             }else if (grandSonLeft < key && key < grandSonRight){
                 toRise = key;
+                bottomLeft = key;
+                bottomRight = grandSonRight;
+                
             }else{
                 toRise = grandSonRight;
+                bottomLeft = key;
+                bottomRight = grandSonRight;
+                
             }
         }
         if (second){
