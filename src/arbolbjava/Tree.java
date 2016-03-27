@@ -223,40 +223,100 @@ public class Tree {
 
     }
 
-    public void promoteRR(TreeNode father, int key) {
+    public void promoteRR(TreeNode father, int key, boolean first, boolean second, boolean third) {
         int fatherLeft = father.getLeftKey();
         int fatherRight = father.getRightKey();
         int sonLeft = -1;
         int sonRight = -1;
+        TreeNode tempFather;
+        TreeNode tempFirstBorn;
+        TreeNode tempSecondBorn;
+        TreeNode tempGrandson1;
+        TreeNode tempGrandson2;
+        TreeNode tempGrandson3;
+        TreeNode tempGrandson4;   
         
-        if (key < fatherLeft){
-            sonLeft = father.getLeftBranch().getLeftKey();
-            sonRight = father.getLeftBranch().getRightKey();
-            TreeNode tempFather = new TreeNode(fatherLeft);
-            TreeNode tempFirstBorn = new TreeNode(key);
-            TreeNode tempSecondBorn = new TreeNode(fatherRight);
+        tempFather = new TreeNode(fatherLeft);
+        tempFirstBorn = new TreeNode(sonLeft);
+        tempSecondBorn = new TreeNode(fatherRight);
+
+        tempGrandson1 = new TreeNode();
+        tempGrandson2 = new TreeNode();
+        tempGrandson3 = father.getMiddleBranch();
+        tempGrandson4 = father.getRightBranch();
+
+        tempGrandson1.setFather(tempFirstBorn);
+        tempGrandson2.setFather(tempFirstBorn);
+        tempGrandson3.setFather(tempSecondBorn);
+        tempGrandson4.setFather(tempSecondBorn);
+
+        tempFirstBorn.setLeftBranch(tempGrandson1);
+        tempFirstBorn.setMiddleBranch(tempGrandson2);
+        tempFirstBorn.setFather(tempFather);
+
+        tempSecondBorn.setLeftBranch(tempGrandson3);
+        tempSecondBorn.setMiddleBranch(tempGrandson4);
+        tempSecondBorn.setFather(tempFather);
+
+        tempFather.setFather(father.getFather());
+        father = tempFather;
+             
+    }
+    
+    public void promoteR(TreeNode father, int key, boolean first, boolean second, boolean third){
+        int sonLeft = father.getLeftKey();
+        int sonRight = father.getRightKey();
+        int grandSonLeft;
+        int grandSonRight;
+        int toRise;
+        int toRiseAgain;
+        TreeNode tempFather;
+        TreeNode firstSon;
+        TreeNode secondSon;
+        TreeNode grandSon1;
+        TreeNode grandSon2;
+        TreeNode grandSon3;
+        
+        if (first){
+            grandSonLeft = father.getLeftBranch().getLeftKey();
+            grandSonRight = father.getLeftBranch().getRightKey();
             
-            if (key < sonLeft ){
-                
-            }else if(sonLeft < key && key < sonRight){
-                
-            }else if (key > sonRight){
-                
+            if (key < grandSonLeft){
+                toRise = grandSonLeft;
+            }else if (grandSonLeft < key && key < grandSonRight){
+                toRise = key;
             }else{
-                System.err.println("Error en PromoteRR");
+                toRise = grandSonRight;
             }
-            
-            
-        }else if ( (key > fatherLeft && key> fatherRight) || (key > fatherRight && father.getRightBranch() == null) ){
-                sonLeft = father.getMiddleBranch().getLeftKey();
-                sonRight = father.getMiddleBranch().getRightKey();
-                
-        }else if (key > fatherRight && father.getRightBranch() != null){
-                sonLeft = father.getRightBranch().getLeftKey();
-                sonRight = father.getRightBranch().getRightKey();
-        }else{
-            System.err.println("error en promote RR");
         }
+        if (second){
+            grandSonLeft = father.getMiddleBranch().getLeftKey();
+            grandSonRight = father.getMiddleBranch().getRightKey();
+            
+            if (key < grandSonLeft){
+                toRise = grandSonLeft;
+            }else if (grandSonLeft < key && key < grandSonRight){
+                toRise = key;
+            }else{
+                toRise = grandSonRight;
+            }
+        }
+        if (third){
+            grandSonLeft = father.getRightBranch().getLeftKey();
+            grandSonRight = father.getRightBranch().getRightKey();
+            
+            if (key < grandSonLeft){
+                toRise = grandSonLeft;
+            }else if (grandSonLeft < key && key < grandSonRight){
+                toRise = key;
+            }else{
+                toRise = grandSonRight;
+            } 
+        }
+        
+        
+        
+        
         
     }
 }
