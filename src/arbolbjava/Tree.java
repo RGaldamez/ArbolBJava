@@ -110,21 +110,27 @@ public class Tree {
                 }
             } else if (Node.isLeaf() && Node.isFull() && !Node.getFather().isFull()) {
                 setRelations(null, root);
-                if (Node ==  Node.getFather().getLeftBranch()){
-                    promote(Node, key,true,false);
-                }else if (Node == Node.getFather().getMiddleBranch()){
-                    promote(Node, key,false,true);
+                if (Node == Node.getFather().getLeftBranch()) {
+                    promote(Node, key, true, false);
+                } else if (Node == Node.getFather().getMiddleBranch()) {
+                    promote(Node, key, false, true);
                 }
-                
-            }else if (Node.isLeaf() && Node.isFull() && Node.getFather().isFull()){
-                if (Node ==  Node.getFather().getLeftBranch()){
-                    
-                }else if (Node == Node.getFather().getMiddleBranch()){
-                    
-                }else if (Node == Node.getFather().getRightBranch()){
-                    
+
+            } else if (Node.isLeaf() && Node.isFull() && Node.getFather().isFull()) {
+                if (Node == Node.getFather().getLeftBranch()) {
+                    promote(Node,key,true,false,false);
+
+                } else if (Node == Node.getFather().getMiddleBranch()) {
+                    promote(Node,key,false,true,false);
+
+                } else if (Node == Node.getFather().getRightBranch()) {
+                    promote(Node,key,false,false,true);
+
                 }
             }
+        }
+        if (Node == null){
+            Node = new TreeNode(key);
         }
 
     }
@@ -167,7 +173,7 @@ public class Tree {
     public void promote(TreeNode node, int key3, boolean first, boolean second) {
         int key1 = node.getLeftKey();
         int key2 = node.getRightKey();
-        int keyToLeft= -1;
+        int keyToLeft = -1;
         int keyToRight = -1;
         int toRise = -1;
         TreeNode leftNode = new TreeNode();
@@ -180,9 +186,8 @@ public class Tree {
             toRise = key1;
             keyToLeft = key3;
             keyToRight = key2;
-            
 
-        } else if ( key1 < key3 && key3 < key2 ) {
+        } else if (key1 < key3 && key3 < key2) {
             //key3 en medio
             leftNode = new TreeNode(key1);
             rightNode = new TreeNode(key2);
@@ -191,7 +196,7 @@ public class Tree {
             keyToRight = key2;
             int fatherLeft;
 
-        } else if (key2 < key3 ) {
+        } else if (key2 < key3) {
             //key3 mayor
             leftNode = new TreeNode(key1);
             rightNode = new TreeNode(key3);
@@ -199,20 +204,20 @@ public class Tree {
             keyToLeft = key1;
             keyToRight = key3;
         }
-        
-        if (first){
-              node.getFather().setRightKey(node.getFather().getLeftKey());
-              node.getFather().setLeftKey(toRise);
-              node.getFather().setLeftBranch(new TreeNode(keyToLeft));
-              node.getFather().setRightBranch(node.getFather().getMiddleBranch());
-              node.getFather().setMiddleBranch(new TreeNode(keyToRight));
+
+        if (first) {
+            node.getFather().setRightKey(node.getFather().getLeftKey());
+            node.getFather().setLeftKey(toRise);
+            node.getFather().setLeftBranch(new TreeNode(keyToLeft));
+            node.getFather().setRightBranch(node.getFather().getMiddleBranch());
+            node.getFather().setMiddleBranch(new TreeNode(keyToRight));
         }
-        if (second){
+        if (second) {
             node.getFather().setRightKey(toRise);
             node.getFather().setMiddleBranch(new TreeNode(keyToLeft));
             node.getFather().setRightBranch(new TreeNode(keyToRight));
         }
-        setRelations(null,root);
+        setRelations(null, root);
     }
 
     public void promoteRR(TreeNode father, int key, boolean first, boolean second, boolean third) {
@@ -226,8 +231,8 @@ public class Tree {
         TreeNode tempGrandson1;
         TreeNode tempGrandson2;
         TreeNode tempGrandson3;
-        TreeNode tempGrandson4;   
-        
+        TreeNode tempGrandson4;
+
         tempFather = new TreeNode(fatherLeft);
         tempFirstBorn = new TreeNode(sonLeft);
         tempSecondBorn = new TreeNode(fatherRight);
@@ -252,16 +257,16 @@ public class Tree {
 
         tempFather.setFather(father.getFather());
         father = tempFather;
-             
+
     }
-    
+
     public void promote(TreeNode node, int key3, boolean first, boolean second, boolean third) {
         int key1 = node.getLeftKey();
         int key2 = node.getRightKey();
-        int keyToLeft= -1;
+        int keyToLeft = -1;
         int keyToRight = -1;
         int toRise = -1;
-        int toRiseAgain =-1;
+        int toRiseAgain = -1;
         int bigKeyToLeft = -1;
         int bigKeyToRight = -1;
         TreeNode leftNode = new TreeNode();
@@ -274,9 +279,8 @@ public class Tree {
             toRise = key1;
             keyToLeft = key3;
             keyToRight = key2;
-            
 
-        } else if ( key1 < key3 && key3 < key2 ) {
+        } else if (key1 < key3 && key3 < key2) {
             //key3 en medio
             leftNode = new TreeNode(key1);
             rightNode = new TreeNode(key2);
@@ -285,7 +289,7 @@ public class Tree {
             keyToRight = key2;
             int fatherLeft;
 
-        } else if (key2 < key3 ) {
+        } else if (key2 < key3) {
             //key3 mayor
             leftNode = new TreeNode(key1);
             rightNode = new TreeNode(key3);
@@ -293,355 +297,350 @@ public class Tree {
             keyToLeft = key1;
             keyToRight = key3;
         }
+
+        if (first) {
+            toRiseAgain = node.getFather().getLeftKey();
+            TreeNode firstSon = new TreeNode(toRise);
+            TreeNode secondSon = new TreeNode(node.getFather().getRightKey());
+            TreeNode grandSonL1 = new TreeNode(keyToLeft);
+            TreeNode grandSonL2 = new TreeNode(keyToRight);
+            TreeNode grandSonR1 = node.getFather().getMiddleBranch();
+            TreeNode grandSonR2 = node.getFather().getRightBranch();
+            TreeNode newFather = new TreeNode();
+            if (node.getFather().getFather() == null) {
+                newFather = new TreeNode(toRiseAgain);
+                newFather.setLeftBranch(firstSon);
+                newFather.setMiddleBranch(secondSon);
+                newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                newFather.getMiddleBranch().setLeftBranch(grandSonR1);
+                newFather.getMiddleBranch().setLeftBranch(grandSonR2);
+                root = newFather;
+            } else if (node.getFather().getFather() != null && !node.getFather().getFather().isFull()) {
+
+                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()) {
+                    node.getFather().getFather().getFather().setRightBranch(node.getFather().getFather().getFather().getMiddleBranch());
+                    node.getFather().getFather().getFather().setMiddleBranch(node.getFather().getFather().getFather().getLeftBranch());
+
+                    newFather = new TreeNode(toRiseAgain);
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
+
+                    node = newFather;
+                } else if (node.getFather().getFather() == node.getFather().getFather().getMiddleBranch()) {
+
+                    newFather = new TreeNode(toRiseAgain);
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
+
+                    node.getFather().getFather().getFather().setMiddleBranch(firstSon);
+                    node.getFather().getFather().getFather().setRightBranch(secondSon);
+                    node = newFather;
+
+                }
+            } else {
+                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()) {
+                    toRiseAgain = node.getFather().getLeftKey();
+                    firstSon = new TreeNode(toRise);
+                    secondSon = new TreeNode(node.getFather().getRightKey());
+                    grandSonL1 = new TreeNode(keyToLeft);
+                    grandSonL2 = new TreeNode(keyToRight);
+                    grandSonR1 = node.getFather().getMiddleBranch();
+                    grandSonR2 = node.getFather().getRightBranch();
+                    newFather.setFather(node.getFather());
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
+                    node = newFather;
+
+                    promote(node.getFather(), toRiseAgain, true, false, false);
+                } else if (node.getFather().getFather() == node.getFather().getFather().getFather().getMiddleBranch()) {
+                    toRiseAgain = node.getFather().getLeftKey();
+                    firstSon = new TreeNode(toRise);
+                    secondSon = new TreeNode(node.getFather().getRightKey());
+                    grandSonL1 = new TreeNode(keyToLeft);
+                    grandSonL2 = new TreeNode(keyToRight);
+                    grandSonR1 = node.getFather().getMiddleBranch();
+                    grandSonR2 = node.getFather().getRightBranch();
+                    newFather.setFather(node.getFather());
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
+                    node = newFather;
+                    promote(node.getFather(), toRiseAgain, false, true, false);
+                } else if (node.getFather().getFather() == node.getFather().getFather().getFather().getRightBranch()) {
+
+                    toRiseAgain = node.getFather().getLeftKey();
+                    firstSon = new TreeNode(toRise);
+                    secondSon = new TreeNode(node.getFather().getRightKey());
+                    grandSonL1 = new TreeNode(keyToLeft);
+                    grandSonL2 = new TreeNode(keyToRight);
+                    grandSonR1 = node.getFather().getMiddleBranch();
+                    grandSonR2 = node.getFather().getRightBranch();
+                    newFather.setFather(node.getFather());
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
+                    node = newFather;
+                    promote(node.getFather(), toRiseAgain, false, false, true);
+                }
+
+            }
+
+        }
+        if (second) {
+
+            toRiseAgain = node.getFather().getLeftKey();
+            TreeNode firstSon = new TreeNode(toRise);
+            TreeNode secondSon = new TreeNode(node.getFather().getRightKey());
+            TreeNode grandSonL1 = new TreeNode(keyToLeft);
+            TreeNode grandSonL2 = new TreeNode(keyToRight);
+            TreeNode grandSonR1 = node.getFather().getMiddleBranch();
+            TreeNode grandSonR2 = node.getFather().getRightBranch();
+            TreeNode newFather = new TreeNode();
+            if (node.getFather().getFather() == null) {
+                newFather = new TreeNode(toRiseAgain);
+                newFather.setLeftBranch(firstSon);
+                newFather.setMiddleBranch(secondSon);
+                newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                newFather.getMiddleBranch().setLeftBranch(grandSonR1);
+                newFather.getMiddleBranch().setLeftBranch(grandSonR2);
+                root = newFather;
+            } else if (node.getFather().getFather() != null && !node.getFather().getFather().isFull()) {
+
+                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()) {
+                    node.getFather().getFather().getFather().setRightBranch(node.getFather().getFather().getFather().getMiddleBranch());
+                    node.getFather().getFather().getFather().setMiddleBranch(node.getFather().getFather().getFather().getLeftBranch());
+
+                    newFather = new TreeNode(toRiseAgain);
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
+
+                    node = newFather;
+                } else if (node.getFather().getFather() == node.getFather().getFather().getMiddleBranch()) {
+
+                    newFather = new TreeNode(toRiseAgain);
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
+
+                    node.getFather().getFather().getFather().setMiddleBranch(firstSon);
+                    node.getFather().getFather().getFather().setRightBranch(secondSon);
+                    node = newFather;
+
+                }
+            } else {
+                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()) {
+                    toRiseAgain = node.getFather().getLeftKey();
+                    firstSon = new TreeNode(toRise);
+                    secondSon = new TreeNode(node.getFather().getRightKey());
+                    grandSonL1 = new TreeNode(keyToLeft);
+                    grandSonL2 = new TreeNode(keyToRight);
+                    grandSonR1 = node.getFather().getMiddleBranch();
+                    grandSonR2 = node.getFather().getRightBranch();
+                    newFather.setFather(node.getFather());
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
+                    node = newFather;
+
+                    promote(node.getFather(), toRiseAgain, true, false, false);
+                } else if (node.getFather().getFather() == node.getFather().getFather().getFather().getMiddleBranch()) {
+                    toRiseAgain = node.getFather().getLeftKey();
+                    firstSon = new TreeNode(toRise);
+                    secondSon = new TreeNode(node.getFather().getRightKey());
+                    grandSonL1 = new TreeNode(keyToLeft);
+                    grandSonL2 = new TreeNode(keyToRight);
+                    grandSonR1 = node.getFather().getMiddleBranch();
+                    grandSonR2 = node.getFather().getRightBranch();
+                    newFather.setFather(node.getFather());
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
+                    node = newFather;
+                    promote(node.getFather(), toRiseAgain, false, true, false);
+                } else if (node.getFather().getFather() == node.getFather().getFather().getFather().getRightBranch()) {
+
+                    toRiseAgain = node.getFather().getLeftKey();
+                    firstSon = new TreeNode(toRise);
+                    secondSon = new TreeNode(node.getFather().getRightKey());
+                    grandSonL1 = new TreeNode(keyToLeft);
+                    grandSonL2 = new TreeNode(keyToRight);
+                    grandSonR1 = node.getFather().getMiddleBranch();
+                    grandSonR2 = node.getFather().getRightBranch();
+                    newFather.setFather(node.getFather());
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
+                    node = newFather;
+                    promote(node.getFather(), toRiseAgain, false, false, true);
+                }
+
+            }
+
+        }
+        if (third) {
+
+            toRiseAgain = node.getFather().getLeftKey();
+            TreeNode firstSon = new TreeNode(toRise);
+            TreeNode secondSon = new TreeNode(node.getFather().getRightKey());
+            TreeNode grandSonL1 = new TreeNode(keyToLeft);
+            TreeNode grandSonL2 = new TreeNode(keyToRight);
+            TreeNode grandSonR1 = node.getFather().getMiddleBranch();
+            TreeNode grandSonR2 = node.getFather().getRightBranch();
+            TreeNode newFather = new TreeNode();
+            if (node.getFather().getFather() == null) {
+                newFather = new TreeNode(toRiseAgain);
+                newFather.setLeftBranch(firstSon);
+                newFather.setMiddleBranch(secondSon);
+                newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                newFather.getMiddleBranch().setLeftBranch(grandSonR1);
+                newFather.getMiddleBranch().setLeftBranch(grandSonR2);
+                root = newFather;
+            } else if (node.getFather().getFather() != null && !node.getFather().getFather().isFull()) {
+
+                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()) {
+                    node.getFather().getFather().getFather().setRightBranch(node.getFather().getFather().getFather().getMiddleBranch());
+                    node.getFather().getFather().getFather().setMiddleBranch(node.getFather().getFather().getFather().getLeftBranch());
+
+                    newFather = new TreeNode(toRiseAgain);
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
+
+                    node = newFather;
+                } else if (node.getFather().getFather() == node.getFather().getFather().getMiddleBranch()) {
+
+                    newFather = new TreeNode(toRiseAgain);
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
+                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
+
+                    node.getFather().getFather().getFather().setMiddleBranch(firstSon);
+                    node.getFather().getFather().getFather().setRightBranch(secondSon);
+                    node = newFather;
+
+                }
+            } else {
+                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()) {
+                    toRiseAgain = node.getFather().getLeftKey();
+                    firstSon = new TreeNode(toRise);
+                    secondSon = new TreeNode(node.getFather().getRightKey());
+                    grandSonL1 = new TreeNode(keyToLeft);
+                    grandSonL2 = new TreeNode(keyToRight);
+                    grandSonR1 = node.getFather().getMiddleBranch();
+                    grandSonR2 = node.getFather().getRightBranch();
+                    newFather.setFather(node.getFather());
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
+                    node = newFather;
+
+                    promote(node.getFather(), toRiseAgain, true, false, false);
+                } else if (node.getFather().getFather() == node.getFather().getFather().getFather().getMiddleBranch()) {
+                    toRiseAgain = node.getFather().getLeftKey();
+                    firstSon = new TreeNode(toRise);
+                    secondSon = new TreeNode(node.getFather().getRightKey());
+                    grandSonL1 = new TreeNode(keyToLeft);
+                    grandSonL2 = new TreeNode(keyToRight);
+                    grandSonR1 = node.getFather().getMiddleBranch();
+                    grandSonR2 = node.getFather().getRightBranch();
+                    newFather.setFather(node.getFather());
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
+                    node = newFather;
+                    promote(node.getFather(), toRiseAgain, false, true, false);
+                } else if (node.getFather().getFather() == node.getFather().getFather().getFather().getRightBranch()) {
+
+                    toRiseAgain = node.getFather().getLeftKey();
+                    firstSon = new TreeNode(toRise);
+                    secondSon = new TreeNode(node.getFather().getRightKey());
+                    grandSonL1 = new TreeNode(keyToLeft);
+                    grandSonL2 = new TreeNode(keyToRight);
+                    grandSonR1 = node.getFather().getMiddleBranch();
+                    grandSonR2 = node.getFather().getRightBranch();
+                    newFather.setFather(node.getFather());
+                    newFather.setLeftBranch(firstSon);
+                    newFather.setMiddleBranch(secondSon);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
+                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
+                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
+                    node = newFather;
+                    promote(node.getFather(), toRiseAgain, false, false, true);
+                }
+
+            }
+        }
+        setRelations(null, root);
+    }
+    
+     public void print(TreeNode father, int contador) {
+        if (father != null && !father.isLeaf()) {
+            System.out.println("Nivel: "+ contador);
+            System.out.println("father: " +father.toString());
+            if (father.getLeftBranch() != null) {
+                System.out.println("LeftChild: " + father.getLeftBranch().toString());
+                print(father.getLeftBranch(),contador+1);
+            }
+            if (father.getMiddleBranch() != null) {
+                System.out.println("MiddleChild: " + father.getMiddleBranch().toString());
+                print(father.getMiddleBranch(),contador+1);
+            }
+            if (father.getRightBranch() != null) {
+                System.out.println("MiddleChild: " + father.getRightBranch().toString());
+                print(father.getRightBranch(),contador+1);
+            }
+        }
+       
         
-        if (first){
-            toRiseAgain = node.getFather().getLeftKey();
-            TreeNode firstSon = new TreeNode(toRise);
-            TreeNode secondSon = new TreeNode(node.getFather().getRightKey());
-            TreeNode grandSonL1 = new TreeNode(keyToLeft);
-            TreeNode grandSonL2 = new TreeNode(keyToRight);
-            TreeNode grandSonR1 = node.getFather().getMiddleBranch();
-            TreeNode grandSonR2 = node.getFather().getRightBranch();
-            TreeNode newFather = new TreeNode();
-            if (node.getFather().getFather() == null){
-                newFather = new TreeNode(toRiseAgain);
-                newFather.setLeftBranch(firstSon);
-                newFather.setMiddleBranch(secondSon);
-                newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                newFather.getMiddleBranch().setLeftBranch(grandSonR1);
-                newFather.getMiddleBranch().setLeftBranch(grandSonR2);
-                root = newFather;
-            }else if (node.getFather().getFather() != null && !node.getFather().getFather().isFull()){
-                
-                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()){
-                    node.getFather().getFather().getFather().setRightBranch(node.getFather().getFather().getFather().getMiddleBranch());
-                    node.getFather().getFather().getFather().setMiddleBranch(node.getFather().getFather().getFather().getLeftBranch());
-                    
-                    newFather = new TreeNode(toRiseAgain);
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
-                    
-                    
-                    
-                    node = newFather;
-                }else if(node.getFather().getFather() == node.getFather().getFather().getMiddleBranch()){
-                    
-                    
-                    
-                    newFather = new TreeNode(toRiseAgain);
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
-                    
-                    
-                    node.getFather().getFather().getFather().setMiddleBranch(firstSon);
-                    node.getFather().getFather().getFather().setRightBranch(secondSon);
-                    node = newFather;
-                    
-                    
-                }
-            }else{
-                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()){
-                    toRiseAgain = node.getFather().getLeftKey();
-                    firstSon = new TreeNode(toRise);
-                    secondSon = new TreeNode(node.getFather().getRightKey());
-                    grandSonL1 = new TreeNode(keyToLeft);
-                    grandSonL2 = new TreeNode(keyToRight);
-                    grandSonR1 = node.getFather().getMiddleBranch();
-                    grandSonR2 = node.getFather().getRightBranch();
-                    newFather.setFather(node.getFather());
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
-                    node = newFather;
-                    
-                    promote(node.getFather(),toRiseAgain,true,false,false);
-                }else if(node.getFather().getFather() == node.getFather().getFather().getFather().getMiddleBranch()){
-                    toRiseAgain = node.getFather().getLeftKey();
-                    firstSon = new TreeNode(toRise);
-                    secondSon = new TreeNode(node.getFather().getRightKey());
-                    grandSonL1 = new TreeNode(keyToLeft);
-                    grandSonL2 = new TreeNode(keyToRight);
-                    grandSonR1 = node.getFather().getMiddleBranch();
-                    grandSonR2 = node.getFather().getRightBranch();
-                    newFather.setFather(node.getFather());
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
-                    node = newFather;
-                    promote(node.getFather(),toRiseAgain,false,true,false);
-                }else if (node.getFather().getFather() == node.getFather().getFather().getFather().getRightBranch()){
-                    
-                    toRiseAgain = node.getFather().getLeftKey();
-                    firstSon = new TreeNode(toRise);
-                    secondSon = new TreeNode(node.getFather().getRightKey());
-                    grandSonL1 = new TreeNode(keyToLeft);
-                    grandSonL2 = new TreeNode(keyToRight);
-                    grandSonR1 = node.getFather().getMiddleBranch();
-                    grandSonR2 = node.getFather().getRightBranch();
-                    newFather.setFather(node.getFather());
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
-                    node = newFather;
-                    promote(node.getFather(),toRiseAgain,false,false,true);
-                }
-                
-                        
-                
-            }
-              
-              
-        }
-        if (second){
-            
-           toRiseAgain = node.getFather().getLeftKey();
-            TreeNode firstSon = new TreeNode(toRise);
-            TreeNode secondSon = new TreeNode(node.getFather().getRightKey());
-            TreeNode grandSonL1 = new TreeNode(keyToLeft);
-            TreeNode grandSonL2 = new TreeNode(keyToRight);
-            TreeNode grandSonR1 = node.getFather().getMiddleBranch();
-            TreeNode grandSonR2 = node.getFather().getRightBranch();
-            TreeNode newFather = new TreeNode();
-            if (node.getFather().getFather() == null){
-                newFather = new TreeNode(toRiseAgain);
-                newFather.setLeftBranch(firstSon);
-                newFather.setMiddleBranch(secondSon);
-                newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                newFather.getMiddleBranch().setLeftBranch(grandSonR1);
-                newFather.getMiddleBranch().setLeftBranch(grandSonR2);
-                root = newFather;
-            }else if (node.getFather().getFather() != null && !node.getFather().getFather().isFull()){
-                
-                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()){
-                    node.getFather().getFather().getFather().setRightBranch(node.getFather().getFather().getFather().getMiddleBranch());
-                    node.getFather().getFather().getFather().setMiddleBranch(node.getFather().getFather().getFather().getLeftBranch());
-                    
-                    newFather = new TreeNode(toRiseAgain);
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
-                    
-                    
-                    
-                    node = newFather;
-                }else if(node.getFather().getFather() == node.getFather().getFather().getMiddleBranch()){
-                    
-                    
-                    
-                    newFather = new TreeNode(toRiseAgain);
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
-                    
-                    
-                    node.getFather().getFather().getFather().setMiddleBranch(firstSon);
-                    node.getFather().getFather().getFather().setRightBranch(secondSon);
-                    node = newFather;
-                    
-                    
-                }
-            }else{
-                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()){
-                    toRiseAgain = node.getFather().getLeftKey();
-                    firstSon = new TreeNode(toRise);
-                    secondSon = new TreeNode(node.getFather().getRightKey());
-                    grandSonL1 = new TreeNode(keyToLeft);
-                    grandSonL2 = new TreeNode(keyToRight);
-                    grandSonR1 = node.getFather().getMiddleBranch();
-                    grandSonR2 = node.getFather().getRightBranch();
-                    newFather.setFather(node.getFather());
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
-                    node = newFather;
-                    
-                    promote(node.getFather(),toRiseAgain,true,false,false);
-                }else if(node.getFather().getFather() == node.getFather().getFather().getFather().getMiddleBranch()){
-                    toRiseAgain = node.getFather().getLeftKey();
-                    firstSon = new TreeNode(toRise);
-                    secondSon = new TreeNode(node.getFather().getRightKey());
-                    grandSonL1 = new TreeNode(keyToLeft);
-                    grandSonL2 = new TreeNode(keyToRight);
-                    grandSonR1 = node.getFather().getMiddleBranch();
-                    grandSonR2 = node.getFather().getRightBranch();
-                    newFather.setFather(node.getFather());
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
-                    node = newFather;
-                    promote(node.getFather(),toRiseAgain,false,true,false);
-                }else if (node.getFather().getFather() == node.getFather().getFather().getFather().getRightBranch()){
-                    
-                    toRiseAgain = node.getFather().getLeftKey();
-                    firstSon = new TreeNode(toRise);
-                    secondSon = new TreeNode(node.getFather().getRightKey());
-                    grandSonL1 = new TreeNode(keyToLeft);
-                    grandSonL2 = new TreeNode(keyToRight);
-                    grandSonR1 = node.getFather().getMiddleBranch();
-                    grandSonR2 = node.getFather().getRightBranch();
-                    newFather.setFather(node.getFather());
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
-                    node = newFather;
-                    promote(node.getFather(),toRiseAgain,false,false,true);
-                }
-                
-                        
-                
-            }
-            
-        }
-        if (third){
-            
-            
-            toRiseAgain = node.getFather().getLeftKey();
-            TreeNode firstSon = new TreeNode(toRise);
-            TreeNode secondSon = new TreeNode(node.getFather().getRightKey());
-            TreeNode grandSonL1 = new TreeNode(keyToLeft);
-            TreeNode grandSonL2 = new TreeNode(keyToRight);
-            TreeNode grandSonR1 = node.getFather().getMiddleBranch();
-            TreeNode grandSonR2 = node.getFather().getRightBranch();
-            TreeNode newFather = new TreeNode();
-            if (node.getFather().getFather() == null){
-                newFather = new TreeNode(toRiseAgain);
-                newFather.setLeftBranch(firstSon);
-                newFather.setMiddleBranch(secondSon);
-                newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                newFather.getMiddleBranch().setLeftBranch(grandSonR1);
-                newFather.getMiddleBranch().setLeftBranch(grandSonR2);
-                root = newFather;
-            }else if (node.getFather().getFather() != null && !node.getFather().getFather().isFull()){
-                
-                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()){
-                    node.getFather().getFather().getFather().setRightBranch(node.getFather().getFather().getFather().getMiddleBranch());
-                    node.getFather().getFather().getFather().setMiddleBranch(node.getFather().getFather().getFather().getLeftBranch());
-                    
-                    newFather = new TreeNode(toRiseAgain);
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
-                    
-                    
-                    
-                    node = newFather;
-                }else if(node.getFather().getFather() == node.getFather().getFather().getMiddleBranch()){
-                    
-                    
-                    
-                    newFather = new TreeNode(toRiseAgain);
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR1);
-                    newFather.getMiddleBranch().setLeftBranch(grandSonR2);
-                    
-                    
-                    node.getFather().getFather().getFather().setMiddleBranch(firstSon);
-                    node.getFather().getFather().getFather().setRightBranch(secondSon);
-                    node = newFather;
-                    
-                    
-                }
-            }else{
-                if (node.getFather().getFather() == node.getFather().getFather().getFather().getLeftBranch()){
-                    toRiseAgain = node.getFather().getLeftKey();
-                    firstSon = new TreeNode(toRise);
-                    secondSon = new TreeNode(node.getFather().getRightKey());
-                    grandSonL1 = new TreeNode(keyToLeft);
-                    grandSonL2 = new TreeNode(keyToRight);
-                    grandSonR1 = node.getFather().getMiddleBranch();
-                    grandSonR2 = node.getFather().getRightBranch();
-                    newFather.setFather(node.getFather());
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
-                    node = newFather;
-                    
-                    promote(node.getFather(),toRiseAgain,true,false,false);
-                }else if(node.getFather().getFather() == node.getFather().getFather().getFather().getMiddleBranch()){
-                    toRiseAgain = node.getFather().getLeftKey();
-                    firstSon = new TreeNode(toRise);
-                    secondSon = new TreeNode(node.getFather().getRightKey());
-                    grandSonL1 = new TreeNode(keyToLeft);
-                    grandSonL2 = new TreeNode(keyToRight);
-                    grandSonR1 = node.getFather().getMiddleBranch();
-                    grandSonR2 = node.getFather().getRightBranch();
-                    newFather.setFather(node.getFather());
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
-                    node = newFather;
-                    promote(node.getFather(),toRiseAgain,false,true,false);
-                }else if (node.getFather().getFather() == node.getFather().getFather().getFather().getRightBranch()){
-                    
-                    toRiseAgain = node.getFather().getLeftKey();
-                    firstSon = new TreeNode(toRise);
-                    secondSon = new TreeNode(node.getFather().getRightKey());
-                    grandSonL1 = new TreeNode(keyToLeft);
-                    grandSonL2 = new TreeNode(keyToRight);
-                    grandSonR1 = node.getFather().getMiddleBranch();
-                    grandSonR2 = node.getFather().getRightBranch();
-                    newFather.setFather(node.getFather());
-                    newFather.setLeftBranch(firstSon);
-                    newFather.setMiddleBranch(secondSon);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL1);
-                    newFather.getLeftBranch().setLeftBranch(grandSonL2);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR1);
-                    newFather.getLeftBranch().setMiddleBranch(grandSonR2);
-                    node = newFather;
-                    promote(node.getFather(),toRiseAgain,false,false,true);
-                }
-                
-                        
-                
-            }
-        }
-        setRelations(null,root);
     }
 }

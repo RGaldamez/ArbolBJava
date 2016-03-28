@@ -143,5 +143,9 @@ public class TreeNode {
         }
         return true;
     }
-
+    
+    @Override
+    public String toString(){
+        return "Izquierdo: "+leftKey + " Derecho: "+rightKey;
+    }
 }
