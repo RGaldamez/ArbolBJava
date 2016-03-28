@@ -48,6 +48,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int seleccion = -1;
         while (seleccion > 5 || seleccion < 1){
+            System.out.println("");
             System.out.println("1) Agregar en el arbol");
             System.out.println("2) Imprimir Arbol");
             System.out.println("3) Salvar Arbol");
