@@ -35,9 +35,9 @@ public class Tree implements Serializable{
     public void insert(int key, TreeNode Node) {
         if (Node.getFather() == null && Node.isLeaf()) {
             if (!Node.isFull()) {
-                if (Node.leftEmpty() && Node.rightEmpty()) {
+                if (Node.getLeftKey() == -1 && Node.getRightKey() == -1) {
                     Node.setLeftKey(key);
-                } else if (!Node.leftEmpty() && Node.rightEmpty()) {
+                } else if (Node.getLeftKey() != -1 && Node.getRightKey() == -1) {
                     Node.setRightKey(key);
                 }
                 order(Node);
@@ -136,9 +136,7 @@ public class Tree implements Serializable{
                 }
             }
         }
-        if (Node == null){
-            Node = new TreeNode(key);
-        }
+        
 
     }
 
@@ -645,6 +643,10 @@ public class Tree implements Serializable{
             if (father.getRightBranch() != null) {
                 System.out.println("MiddleChild: " + father.getRightBranch().toString());
                 print(father.getRightBranch(),contador+1);
+            }
+        }else{
+            if (father.isLeaf()){
+                System.out.println(father.toString());
             }
         }
      }
