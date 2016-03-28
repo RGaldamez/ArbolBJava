@@ -5,12 +5,19 @@
  */
 package arbolbjava;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
 /**
  *
  * @author RickAg
  */
-public class Tree {
-
+public class Tree implements Serializable{
+    private static final long serialVersionUID =22222L;
     private TreeNode root;
 
     public Tree(TreeNode root) {
@@ -640,7 +647,32 @@ public class Tree {
                 print(father.getRightBranch(),contador+1);
             }
         }
-       
+     }
+       public void saveTree(){
+        File file = new File("./Tree");
+           try {
+               FileOutputStream fs = new FileOutputStream(file);
+               ObjectOutputStream os = new ObjectOutputStream(fs);
+               os.writeObject(this.root);
+               os.flush();
+               os.close();
+               fs.close();
+           } catch (Exception e) {
+           }   
+           
+       }
         
+       public void loadTree(){
+           File file = new File("./Tree");
+           try {
+               FileInputStream fs = new FileInputStream(file);
+               ObjectInputStream os = new ObjectInputStream(fs);
+               this.root = (TreeNode)os.readObject();
+               setRelations(null,root);
+               os.close();
+               fs.close();
+           } catch (Exception e) {
+           }
+       }
     }
 }
